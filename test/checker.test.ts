@@ -260,3 +260,22 @@ describe("side tables", () => {
     );
   });
 });
+
+describe("integer literal range", () => {
+  test("accepts the i32 boundaries", () => {
+    accepts(inFn("return 2147483647;"));
+    accepts(inFn("return -2147483648;"));
+  });
+
+  test("rejects a literal that does not fit", () => {
+    rejects(inFn("return 2147483648;"), /does not fit in an i32/);
+    rejects(inFn("return -2147483649;"), /does not fit in an i32/);
+  });
+
+  test("a minus sign is folded into the literal", () => {
+    const module = parse(inFn("return -5;"));
+    const returned = module.functions[0]!.body.stmts[0]!;
+    assert.equal(returned.kind, "return");
+    assert.equal(returned.value?.kind, "int");
+  });
+});

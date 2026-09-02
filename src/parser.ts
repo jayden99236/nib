@@ -260,6 +260,14 @@ class Parser {
     if (this.at("-") || this.at("!")) {
       const op = this.advance();
       const operand = this.parseUnary();
+
+      // Fold a minus sign directly into a numeric literal. Without this,
+      // -2147483648 would have to pass through the positive literal
+      // 2147483648, which does not fit in an i32 and would be rejected.
+      if (op.kind === "-" && (operand.kind === "int" || operand.kind === "float")) {
+        return { kind: operand.kind, value: -operand.value, span: joinSpans(op.span, operand.span) };
+      }
+
       return {
         kind: "unary",
         op: op.kind as UnaryOp,

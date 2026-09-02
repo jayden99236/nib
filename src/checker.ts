@@ -280,8 +280,14 @@ class FunctionChecker {
 
   private inferExpr(expr: Expr): Type {
     switch (expr.kind) {
-      case "int":
+      case "int": {
+        // Checked here rather than in the parser so that the parser has
+        // already folded any leading minus into the literal.
+        if (expr.value < -2_147_483_648 || expr.value > 2_147_483_647) {
+          fail(`integer literal ${expr.value} does not fit in an i32`, expr.span, "i32 holds -2147483648 to 2147483647");
+        }
         return "i32";
+      }
       case "float":
         return "f64";
       case "bool":
