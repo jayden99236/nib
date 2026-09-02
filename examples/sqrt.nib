@@ -1,0 +1,26 @@
+/* Newton's method, to show floating point and explicit casts.
+   nib has no implicit conversions, so the integer 2 has to be
+   written 2.0 and the loop counter has to be cast. */
+
+fn abs(x: f64) -> f64 {
+  if x < 0.0 {
+    return -x;
+  }
+  return x;
+}
+
+fn sqrt(n: f64) -> f64 {
+  let mut guess = n / 2.0;
+  let mut steps = 0;
+
+  while abs(guess * guess - n) > 0.000001 && steps < 50 {
+    guess = (guess + n / guess) / 2.0;
+    steps = steps + 1;
+  }
+
+  return guess;
+}
+
+export fn main() -> f64 {
+  return sqrt(2.0);
+}

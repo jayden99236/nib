@@ -1,0 +1,35 @@
+// The longest Collatz chain starting under 10000.
+// Integer division truncates and % is i32-only, which is all this needs.
+
+fn chain_length(start: i32) -> i32 {
+  let mut n = start;
+  let mut steps = 0;
+
+  while n != 1 {
+    if n % 2 == 0 {
+      n = n / 2;
+    } else {
+      n = 3 * n + 1;
+    }
+    steps = steps + 1;
+  }
+
+  return steps;
+}
+
+export fn main() -> i32 {
+  let mut best = 0;
+  let mut best_start = 1;
+  let mut i = 1;
+
+  while i < 10000 {
+    let length = chain_length(i);
+    if length > best {
+      best = length;
+      best_start = i;
+    }
+    i = i + 1;
+  }
+
+  return best_start;
+}
