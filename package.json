@@ -1,0 +1,37 @@
+{
+  "name": "nib",
+  "version": "0.1.0",
+  "description": "A small statically-typed language that compiles to WebAssembly.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Jayden Winterbach",
+  "keywords": [
+    "compiler",
+    "webassembly",
+    "wasm",
+    "language",
+    "parser",
+    "typescript"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "nib": "dist/src/cli.js"
+  },
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "files": [
+    "dist/src"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "check": "tsc --noEmit",
+    "test": "npm run build && node --test dist/test/",
+    "nib": "npm run build --silent && node dist/src/cli.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "@types/node": "^22.0.0"
+  }
+}
