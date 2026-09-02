@@ -27,7 +27,7 @@
   "scripts": {
     "build": "tsc",
     "check": "tsc --noEmit",
-    "test": "npm run build && node --test dist/test/",
+    "test": "npm run build && node --test \"dist/test/*.test.js\"",
     "nib": "npm run build --silent && node dist/src/cli.js"
   },
   "devDependencies": {
